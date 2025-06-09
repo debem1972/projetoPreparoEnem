@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Conteúdo</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts (Caveat e Roboto) -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Roboto:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Caveat', cursive;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 800px;
+            margin-top: 50px;
+        }
+
+        h1 {
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-label {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        #contentInput {
+            font-family: 'Roboto', sans-serif;
+            height: 300px;
+            resize: vertical;
+        }
+
+        .btn-primary {
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Cadastro de Novo Conteúdo</h1>
+        <form id="contentForm">
+            <div class="mb-3">
+                <label for="monthSelect" class="form-label">Mês</label>
+                <select id="monthSelect" class="form-select" required>
+                    <option value="">Selecione o mês</option>
+                    <option value="junho">Junho</option>
+                    <option value="julho">Julho</option>
+                    <option value="agosto">Agosto</option>
+                    <option value="setembro">Setembro</option>
+                    <option value="outubro">Outubro</option>
+                    <option value="novembro">Novembro</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="weekSelect" class="form-label">Semana</label>
+                <select id="weekSelect" class="form-select" required>
+                    <option value="">Selecione a semana</option>
+                    <option value="1">1ª Semana</option>
+                    <option value="2">2ª Semana</option>
+                    <option value="3">3ª Semana</option>
+                    <option value="4">4ª Semana</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="daySelect" class="form-label">Dia</label>
+                <select id="daySelect" class="form-select" required>
+                    <option value="">Selecione o dia</option>
+                    <option value="segunda">Segunda</option>
+                    <option value="terca">Terça</option>
+                    <option value="quarta">Quarta</option>
+                    <option value="quinta">Quinta</option>
+                    <option value="sexta">Sexta</option>
+                    <option value="sabado">Sábado</option>
+                    <option value="domingo">Domingo</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="contentInput" class="form-label">Conteúdo (em HTML)</label>
+                <textarea id="contentInput" class="form-control" required
+                    placeholder="Insira o conteúdo em HTML, começando com <h2> contendo a matéria..."></textarea>
+            </div>
+            <!--Modal-->
+
+            <div class="modal fade" id="modeloAulaHtml" tabindex="-1" aria-labelledby="modalDeModeloAulaHtml"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalCenteredScrollableTitle">
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;">Modelo de aula</font>
+                                </font>
+                            </h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Fechar"></button>
+                        </div>
+                        <div class="modal-body" id="modeloAulaContent">
+                            <h2>📚 Matemática Básica - 02/06/2025</h2>
+                            <h3>1️⃣ Teoria Essencial</h3>
+                            <h4>🔢 Conjuntos Numéricos</h4>
+                            <p><a href="https://youtu.be/s5Xv1SIQnQE?si=4mEOT0Aczrf7sgL9" target="_blank">Vídeo:
+                                    Conjuntos Numéricos (Sandro Curió)</a></p>
+                            <ul>
+                                <li>Naturais (ℕ): 0, 1, 2, 3, ...</li>
+                                <li>Inteiros (ℤ): ... -2, -1, 0, 1, 2, ...</li>
+                                <li>Racionais (ℚ): frações (1/2), decimais exatos e periódicos (0,333...)</li>
+                                <li>Irracionais (I): raízes não exatas (√2, π)</li>
+                                <li>Reais (ℝ): todos os anteriores</li>
+                            </ul>
+                            <h4>🟰 Frações</h4>
+                            <p><a href="https://youtu.be/dZfWflhf_IU?si=pyyOnVdIh9HbAG0K" target="_blank">Vídeo:
+                                    Operações com Frações (Sandro Curió)</a></p>
+                            <p>Definição: parte de um todo (a/b, b≠0)</p>
+                            <p>Operações básicas:</p>
+                            <ul>
+                                <li>Soma/Subtração: mesmo denominador → soma direta; diferente denominador → MMC</li>
+                                <li>Multiplicação: numerador×numerador / denominador×denominador</li>
+                                <li>Divisão: inverte a segunda fração e multiplica</li>
+                            </ul>
+                            <h4>💯 Porcentagem</h4>
+                            <p><a href="https://youtu.be/azedx0uou64?si=tjO5wxYwBMslY43s" target="_blank">Vídeo:
+                                    Porcentagem (Sandro Curió)</a></p>
+                            <p>1% = 1/100 (por cento)</p>
+                            <p>Para calcular:</p>
+                            <p>\\[ \\text{Porcentagem} = \\frac{\\text{parte}}{\\text{total}} \\times 100 \\]</p>
+                            <h3>2️⃣ Exercícios de Fixação (10 questões)</h3>
+                            <ol>
+                                <li>Escreva o conjunto dos números inteiros entre -3 e 3.</li>
+                                <li>Dê um exemplo de número irracional.</li>
+                                <li>Some as frações 1/4 + 2/3.</li>
+                                <li>Subtraia: 3/5 - 1/2.</li>
+                                <li>Multiplique: 2/3 × 3/4.</li>
+                                <li>Divida: 5/6 ÷ 2/3.</li>
+                                <li>Calcule 25% de 200.</li>
+                                <li>Se 30 é 15% de um número, qual é o número?</li>
+                                <li>Um produto custa R$ 80,00 e teve aumento de 20%. Qual o novo preço?</li>
+                                <li>Um desconto de 10% em R$ 150,00. Quanto é o desconto?</li>
+                            </ol>
+                            <h3>3️⃣ Resolução Comentada</h3>
+                            <p><strong>✅ Questão 1:</strong> Inteiros entre -3 e 3: {-2, -1, 0, 1, 2}<br>👉 Dica:
+                                incluir todos sem extremos!</p>
+                            <p><strong>✅ Questão 2:</strong> Ex.: √2 (não tem dízima periódica)<br>👟 Dica: decore
+                                exemplos clássicos: √2, √3, π</p>
+                            <p><strong>✅ Questão 3:</strong> 1/4 + 2/3<br>MMC(4,3)=12 → 1/4=3/12 e
+                                2/3=8/12<br>3/12+8/12=11/12</p>
+                            <p><strong>✅ Questão 4:</strong> 3/5 - 1/2<br>MMC(5,2)=10 → 3/5=6/10 e
+                                1/2=5/10<br>6/10-5/10=1/10</p>
+                            <p><strong>✅ Questão 5:</strong> 2/3×3/4=6/12=1/2</p>
+                            <p><strong>✅ Questão 6:</strong> 5/6 ÷ 2/3=5/6×3/2=15/12=5/4=1,25</p>
+                            <p><strong>✅ Questão 7:</strong> 25% de 200 = (25/100)×200=50</p>
+                            <p><strong>✅ Questão 8:</strong> 30=15% de X → 30=0,15×X → X=200</p>
+                            <p><strong>✅ Questão 9:</strong> Aumento: 20% de 80 = 0,20×80=16 → 80+16=96</p>
+                            <p><strong>✅ Questão 10:</strong> Desconto: 10% de 150 = 0,10×150=15</p>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" id="copiarModeloBtn">Copiar modelo</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                                Fechar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-secondary" title="Clique aqui para o modelo de aula em html"
+                data-bs-toggle="modal" data-bs-target="#modeloAulaHtml">Modelo aula</button>
+            <button type="submit" class="btn btn-primary">Lançar Conteúdo</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap 5 JS e Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+    <script>
+        let dbInstance = null;
+
+        // Função para inicializar o IndexedDB
+        // Função para inicializar o IndexedDB
+        function initDB() {
+            return new Promise((resolve, reject) => {
+                if (dbInstance) {
+                    resolve(dbInstance);
+                    return;
+                }
+                const request = indexedDB.open('PlanoDeEstudosDB', 2);
+                request.onupgradeneeded = (event) => {
+                    const db = event.target.result;
+                    if (!db.objectStoreNames.contains('planos')) {
+                        db.createObjectStore('planos', { keyPath: 'id', autoIncrement: true });
+                    }
+                    if (!db.objectStoreNames.contains('desempenho')) {
+                        db.createObjectStore('desempenho', { keyPath: 'id', autoIncrement: true });
+                    }
+                    if (!db.objectStoreNames.contains('postits')) {
+                        db.createObjectStore('postits', { keyPath: 'id', autoIncrement: true });
+                    }
+                    if (!db.objectStoreNames.contains('conteudos')) {
+                        db.createObjectStore('conteudos', { keyPath: 'key' });
+                    }
+                };
+                request.onsuccess = (event) => {
+                    dbInstance = event.target.result;
+                    resolve(dbInstance);
+                };
+                request.onerror = (event) => {
+                    reject(new Error('Erro ao abrir o IndexedDB'));
+                };
+                request.onblocked = () => {
+                    reject(new Error('Abertura do IndexedDB bloqueada. Feche outras instâncias do aplicativo.'));
+                };
+            });
+        }
+
+        // Função para salvar conteúdo
+        async function saveContent(key, content, materia) {
+            try {
+                const db = await initDB();
+                const transaction = db.transaction(['conteudos'], 'readwrite');
+                const store = transaction.objectStore('conteudos');
+                await store.put({ key, content, materia });
+                console.log('Conteúdo salvo com sucesso!');
+            } catch (error) {
+                console.error('Erro ao salvar conteúdo:', error);
+                throw error;
+            }
+        }
+
+        // Função para extrair matéria do h2
+        function extractMateria(content) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(content, 'text/html');
+            const h2 = doc.querySelector('h2');
+            if (h2) {
+                const text = h2.textContent.trim();
+                const match = text.match(/📚\s*([^–-]+)(?:\s*–.*)?/); // Extrai até o traço ou fim
+                return match ? match[1].trim() : 'Desconhecida';
+            }
+            return 'Desconhecida';
+        }
+
+        // Função para atualizar matérias
+        async function updateMaterias(materia) {
+            try {
+                const materias = JSON.parse(localStorage.getItem('materias') || '[]');
+                if (!materias.includes(materia)) {
+                    materias.push(materia);
+                    localStorage.setItem('materias', JSON.stringify(materias));
+                }
+            } catch (error) {
+                console.error('Erro ao atualizar matérias:', error);
+            }
+        }
+
+        // Manipulação do formulário
+        document.getElementById('contentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const month = document.getElementById('monthSelect').value;
+            const week = document.getElementById('weekSelect').value;
+            const day = document.getElementById('daySelect').value;
+            const content = document.getElementById('contentInput').value;
+
+            if (!month || !week || !day || !content) {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+
+            const key = `${month}-${week}-${day}`;
+            const materia = extractMateria(content);
+
+            try {
+                await saveContent(key, content, materia);
+                await updateMaterias(materia);
+                alert('Conteúdo lançado com sucesso!');
+                document.getElementById('contentForm').reset();
+            } catch (error) {
+                alert('Erro ao lançar conteúdo. Verifique o console.');
+            }
+        });
+
+        //---------------------------------------------------------------
+        // Função para copiar o HTML do modelo para a área de transferência
+        document.getElementById('copiarModeloBtn').addEventListener('click', function () {
+            //Obter o valor do conteúdo do modelo de aula
+            const modeloAulaContent = document.getElementById('modeloAulaContent');
+            const textoHtml = modeloAulaContent.innerHTML;
+            // Copiar o conteúdo para a área de transferência
+            navigator.clipboard.writeText(textoHtml).then(function () {
+                alert('Conteúdo copiado para a área de transferência!');
+            }).catch(function (err) {
+                console.error('Erro ao copiar: ', err);
+            });
+        });
+
+
+    </script>
+</body>
+
+</html>
