@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description"
+                content="Aplicação web responsiva para gerenciamento de plano de estudos, com funcionalidades de drag-and-drop, gráficos de desempenho e edição de conteúdo.">
+        <meta name="keywords"
+                content="ENEM, plano de estudos, cronograma de estudos, organização escolar, app educacional, estudo online, preparação para vestibular, simulados ENEM, conteúdo didático, desempenho escolar, agenda de estudos, produtividade, educação, ensino médio, revisão de matérias, calendário escolar, controle de tempo, post-it digital, gráficos de desempenho, drag and drop, matemática, português, ciências humanas, ciências da natureza, linguagens, redação ENEM, estudo personalizado, aplicativo responsivo, mobile, web app, gerenciamento de conteúdo, exportar dados, importar dados, dashboard educacional">
+        <meta name="author" content="Daniel Lopes Bemfica">
+        <title>Plano de Estudos</title>
+        <!-- Bootstrap 5 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Google Fonts (Caveat e Roboto) -->
+        <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Roboto:wght@400;700&display=swap"
+                rel="stylesheet">
+        <!-- Bootstrap Icons -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+        <!-- Interact.js para drag-and-drop -->
+        <script src="https://cdn.jsdelivr.net/npm/interactjs@1.10.27/dist/interact.min.js"></script>
+        <!-- Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.min.js"></script>
+        <link rel="stylesheet" href="./css/style.css">
+        <link rel="icon" type="image/png" href="./image/corujaEsperta.png">
+
+</head>
+
+<body class="d-flex flex-column min-vh-100 align-items-center">
+        <!-- Título -->
+        <div class="container title-container">
+                <h1>Plano de Estudos</h1>
+        </div>
+
+        <!-- Botões -->
+        <div
+                class="container border rounded ms-2 me-2 d-flex justify-content-center align-items-center flex-wrap shadow">
+                <button class="btn btn-primary m-3" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
+                        Menu
+                </button>
+                <span data-bs-toggle="tooltip" data-bs-placement="top" title="Em construção...">
+                        <button class="btn btn-secondary m-3" type="button" data-bs-toggle="modal"
+                                data-bs-target="#dashboardModal" disabled>
+                                Dashboard
+                        </button>
+                </span>
+
+                <a href="cadastro-conteudo.html" class="btn btn-success m-3" target="_blank">Inserir Conteúdo</a>
+                <button id="exportData" class="btn btn-info m-3">Exportar Dados</button>
+                <button id="importData" class="btn btn-warning m-3">Importar Dados</button>
+                <input type="file" id="importFile" accept=".json" style="display: none;">
+        </div>
+        <!-- Modal do Dashboard -->
+        <div class="modal fade" id="dashboardModal" tabindex="-1" aria-labelledby="dashboardModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                                <div class="modal-header">
+                                        <h5 class="modal-title" id="dashboardModalLabel">Dashboard de Desempenho</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Fechar"></button>
+                                </div>
+                                <!--Modal dashboard-->
+                                <div class="modal-body">
+                                        <!-- Filtros -->
+                                        <div class="container filter-container">
+                                                <div class="row">
+                                                        <div class="col-md-3">
+                                                                <label for="monthFilter" class="form-label">Mês</label>
+                                                                <select id="monthFilter" class="form-select">
+                                                                        <option value="">Todos</option>
+                                                                        <option value="junho">Junho</option>
+                                                                        <option value="julho">Julho</option>
+                                                                        <option value="agosto">Agosto</option>
+                                                                        <option value="setembro">Setembro</option>
+                                                                        <option value="outubro">Outubro</option>
+                                                                        <option value="novembro">Novembro</option>
+                                                                </select>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                                <label for="weekFilter"
+                                                                        class="form-label">Semana</label>
+                                                                <select id="weekFilter" class="form-select">
+                                                                        <option value="">Todas</option>
+                                                                        <option value="1">1ª Semana</option>
+                                                                        <option value="2">2ª Semana</option>
+                                                                        <option value="3">3ª Semana</option>
+                                                                        <option value="4">4ª Semana</option>
+                                                                </select>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                                <label for="dayFilter" class="form-label">Dia</label>
+                                                                <select id="dayFilter" class="form-select">
+                                                                        <option value="">Todos</option>
+                                                                        <option value="segunda">Segunda</option>
+                                                                        <option value="terca">Terça</option>
+                                                                        <option value="quarta">Quarta</option>
+                                                                        <option value="quinta">Quinta</option>
+                                                                        <option value="sexta">Sexta</option>
+                                                                        <option value="sabado">Sábado</option>
+                                                                        <option value="domingo">Domingo</option>
+                                                                </select>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                                <label for="subjectFilter"
+                                                                        class="form-label">Matéria</label>
+                                                                <select id="subjectFilter" class="form-select">
+                                                                        <option value="">Todas</option>
+                                                                        <!--<option value="Matemática">Matemática</option>
+                                                                        <option value="Português">Português</option>
+                                                                        <option value="História">História</option>-->
+                                                                </select>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        <!-- Gráfico -->
+                                        <div class="container chart-container">
+                                                <canvas id="performanceChart"></canvas>
+                                        </div>
+                                        <!-- Resumo -->
+                                        <div class="container summary">
+                                                <p id="summaryText">Tempo total estudado: 0 minutos</p>
+                                        </div>
+                                </div>
+                                <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Fechar</button>
+                                </div>
+                        </div>
+                </div>
+        </div>
+
+        <!-- Offcanvas Menu -->
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
+                <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasMenuLabel">Plano de Estudos</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                aria-label="Fechar"></button>
+                </div>
+                <div class="offcanvas-body">
+                        <ul class="nav flex-column">
+                                <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                Meses
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                                <li class="dropdown-submenu">
+                                                        <a class="dropdown-item dropdown-toggle" href="#"
+                                                                data-month="junho">Junho</a>
+                                                        <ul class="dropdown-menu">
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item dropdown-toggle"
+                                                                                href="#" data-month="junho"
+                                                                                data-week="1">1ª Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="1"
+                                                                                                data-day="segunda"
+                                                                                                title="Matemática Básica">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="1"
+                                                                                                data-day="terca"
+                                                                                                title="Português Base">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="1"
+                                                                                                data-day="quarta"
+                                                                                                title="História antiga/Medieval">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="1"
+                                                                                                data-day="quinta"
+                                                                                                title="Biologia celular">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="1"
+                                                                                                data-day="sexta"
+                                                                                                title="Física - Mecânica 1">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="1"
+                                                                                                data-day="sabado"
+                                                                                                title="Espanhol básico">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="1"
+                                                                                                data-day="domingo"
+                                                                                                title="Revisão do conteúdo semanal">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item dropdown-toggle"
+                                                                                href="#" data-month="junho"
+                                                                                data-week="2">2ª Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="2"
+                                                                                                data-day="segunda"
+                                                                                                title="MATEMÁTICA: FUNÇÕES I">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="2"
+                                                                                                data-day="terca"
+                                                                                                title="Literatura Medieval Clássica">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="2"
+                                                                                                data-day="quarta"
+                                                                                                title="História - Brasil Colonial + Geografia">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="2"
+                                                                                                data-day="quinta"
+                                                                                                title="Química geral I">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="2"
+                                                                                                data-day="sexta"
+                                                                                                title="Física - DINÂMICA">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="2"
+                                                                                                data-day="sabado"
+                                                                                                title="Espanhol - Substantivos e adjetivos">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="2"
+                                                                                                data-day="domingo"
+                                                                                                title="Sociologia e filosofia">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item dropdown-toggle"
+                                                                                href="#" data-month="junho"
+                                                                                data-week="3">3ª Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="3"
+                                                                                                data-day="segunda"
+                                                                                                title="MATEMÁTICA: FUNÇÕES I">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="3"
+                                                                                                data-day="terca"
+                                                                                                title="MATEMÁTICA: FUNÇÕES I">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="3"
+                                                                                                data-day="quarta"
+                                                                                                title="MATEMÁTICA: FUNÇÕES I">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="3"
+                                                                                                data-day="quinta"
+                                                                                                title="MATEMÁTICA: FUNÇÕES I">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="3"
+                                                                                                data-day="sexta"
+                                                                                                title="MATEMÁTICA: FUNÇÕES I">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="3"
+                                                                                                data-day="sabado"
+                                                                                                title="MATEMÁTICA: FUNÇÕES I">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="3"
+                                                                                                data-day="domingo"
+                                                                                                title="MATEMÁTICA: FUNÇÕES I">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item dropdown-toggle"
+                                                                                href="#" data-month="junho"
+                                                                                data-week="4">4ª Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="4"
+                                                                                                data-day="segunda"
+                                                                                                title="MATEMÁTICA: FUNÇÕES I">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="4"
+                                                                                                data-day="terca"
+                                                                                                title="MATEMÁTICA: FUNÇÕES I">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="4"
+                                                                                                data-day="quarta"
+                                                                                                title="MATEMÁTICA: FUNÇÕES I">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="4"
+                                                                                                data-day="quinta"
+                                                                                                title="MATEMÁTICA: FUNÇÕES I">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="4"
+                                                                                                data-day="sexta"
+                                                                                                title="MATEMÁTICA: FUNÇÕES I">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="4"
+                                                                                                data-day="sabado"
+                                                                                                title="MATEMÁTICA: FUNÇÕES I">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="junho"
+                                                                                                data-week="4"
+                                                                                                data-day="domingo"
+                                                                                                title="MATEMÁTICA: FUNÇÕES I">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                        </ul>
+                                                </li>
+                                                <li class="dropdown-submenu">
+                                                        <a class="dropdown-item dropdown-toggle" href="#"
+                                                                data-month="julho">Julho</a>
+                                                        <ul class="dropdown-menu">
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item dropdown-toggle"
+                                                                                href="#" data-month="julho"
+                                                                                data-week="1">1ª Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="1"
+                                                                                                data-day="segunda">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="1"
+                                                                                                data-day="terca">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="1"
+                                                                                                data-day="quarta">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="1"
+                                                                                                data-day="quinta">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="1"
+                                                                                                data-day="sexta">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="1"
+                                                                                                data-day="sabado">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="1"
+                                                                                                data-day="domingo">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item dropdown-toggle"
+                                                                                href="#" data-month="julho"
+                                                                                data-week="2">2ª Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="2"
+                                                                                                data-day="segunda">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="2"
+                                                                                                data-day="terca">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="2"
+                                                                                                data-day="quarta">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="2"
+                                                                                                data-day="quinta">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="2"
+                                                                                                data-day="sexta">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="2"
+                                                                                                data-day="sabado">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="2"
+                                                                                                data-day="domingo">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item dropdown-toggle"
+                                                                                href="#" data-month="julho"
+                                                                                data-week="3">3ª Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="3"
+                                                                                                data-day="segunda">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="3"
+                                                                                                data-day="terca">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="3"
+                                                                                                data-day="quarta">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="3"
+                                                                                                data-day="quinta">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="3"
+                                                                                                data-day="sexta">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="3"
+                                                                                                data-day="sabado">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="3"
+                                                                                                data-day="domingo">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item dropdown-toggle"
+                                                                                href="#" data-month="julho"
+                                                                                data-week="4">4ª Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="4"
+                                                                                                data-day="segunda">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="4"
+                                                                                                data-day="terca">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="4"
+                                                                                                data-day="quarta">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="4"
+                                                                                                data-day="quinta">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="4"
+                                                                                                data-day="sexta">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="4"
+                                                                                                data-day="sabado">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="julho"
+                                                                                                data-week="4"
+                                                                                                data-day="domingo">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                        </ul>
+                                                </li>
+                                                <li class="dropdown-submenu">
+                                                        <a class="dropdown-item dropdown-toggle" href="#"
+                                                                data-month="agosto">Agosto</a>
+                                                        <ul class="dropdown-menu">
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item dropdown-toggle"
+                                                                                href="#" data-month="agosto"
+                                                                                data-week="1">1ª Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="1"
+                                                                                                data-day="segunda">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="1"
+                                                                                                data-day="terca">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="1"
+                                                                                                data-day="quarta">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="1"
+                                                                                                data-day="quinta">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="1"
+                                                                                                data-day="sexta">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="1"
+                                                                                                data-day="sabado">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="1"
+                                                                                                data-day="domingo">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item dropdown-toggle"
+                                                                                href="#" data-month="agosto"
+                                                                                data-week="2">2ª Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="2"
+                                                                                                data-day="segunda">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="2"
+                                                                                                data-day="terca">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="2"
+                                                                                                data-day="quarta">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="2"
+                                                                                                data-day="quinta">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="2"
+                                                                                                data-day="sexta">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="2"
+                                                                                                data-day="sabado">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="2"
+                                                                                                data-day="domingo">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item dropdown-toggle"
+                                                                                href="#" data-month="agosto"
+                                                                                data-week="3">3ª Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="3"
+                                                                                                data-day="segunda">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="3"
+                                                                                                data-day="terca">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="3"
+                                                                                                data-day="quarta">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="3"
+                                                                                                data-day="quinta">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="3"
+                                                                                                data-day="sexta">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="3"
+                                                                                                data-day="sabado">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="3"
+                                                                                                data-day="domingo">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item dropdown-toggle"
+                                                                                href="#" data-month="agosto"
+                                                                                data-week="4">4ª Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="4"
+                                                                                                data-day="segunda">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="4"
+                                                                                                data-day="terca">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="4"
+                                                                                                data-day="quarta">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="4"
+                                                                                                data-day="quinta">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="4"
+                                                                                                data-day="sexta">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="4"
+                                                                                                data-day="sabado">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="agosto"
+                                                                                                data-week="4"
+                                                                                                data-day="domingo">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                        </ul>
+                                                </li>
+                                                <li class="dropdown-submenu">
+                                                        <a class="dropdown-item dropdown-toggle" href="#"
+                                                                data-month="setembro">Setembro</a>
+                                                        <ul class="dropdown-menu">
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item dropdown-toggle"
+                                                                                href="#" data-month="setembro"
+                                                                                data-week="1">1ª Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="1"
+                                                                                                data-day="segunda">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="1"
+                                                                                                data-day="terca">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="1"
+                                                                                                data-day="quarta">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="1"
+                                                                                                data-day="quinta">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="1"
+                                                                                                data-day="sexta">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="1"
+                                                                                                data-day="sabado">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="1"
+                                                                                                data-day="domingo">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item dropdown-toggle"
+                                                                                href="#" data-month="setembro"
+                                                                                data-week="2">2ª Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="2"
+                                                                                                data-day="segunda">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="2"
+                                                                                                data-day="terca">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="2"
+                                                                                                data-day="quarta">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="2"
+                                                                                                data-day="quinta">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="2"
+                                                                                                data-day="sexta">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="2"
+                                                                                                data-day="sabado">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="2"
+                                                                                                data-day="domingo">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item dropdown-toggle"
+                                                                                href="#" data-month="setembro"
+                                                                                data-week="3">3ª Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="3"
+                                                                                                data-day="segunda">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="3"
+                                                                                                data-day="terca">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="3"
+                                                                                                data-day="quarta">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="3"
+                                                                                                data-day="quinta">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="3"
+                                                                                                data-day="sexta">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="3"
+                                                                                                data-day="sabado">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="3"
+                                                                                                data-day="domingo">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item dropdown-toggle"
+                                                                                href="#" data-month="setembro"
+                                                                                data-week="4">4ª Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="4"
+                                                                                                data-day="segunda">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="4"
+                                                                                                data-day="terca">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="4"
+                                                                                                data-day="quarta">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="4"
+                                                                                                data-day="quinta">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="4"
+                                                                                                data-day="sexta">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="4"
+                                                                                                data-day="sabado">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="setembro"
+                                                                                                data-week="4"
+                                                                                                data-day="domingo">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                        </ul>
+                                                </li>
+                                                <li class="dropdown-submenu">
+                                                        <a class="dropdown-item dropdown-toggle" href="#"
+                                                                data-month="outubro">Outubro</a>
+                                                        <ul class="dropdown-menu">
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item dropdown-toggle"
+                                                                                href="#" data-month="outubro"
+                                                                                data-week="1">1ª Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="1"
+                                                                                                data-day="segunda">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="1"
+                                                                                                data-day="terca">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="1"
+                                                                                                data-day="quarta">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="1"
+                                                                                                data-day="quinta">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="1"
+                                                                                                data-day="sexta">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="1"
+                                                                                                data-day="sabado">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="1"
+                                                                                                data-day="domingo">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item dropdown-toggle"
+                                                                                href="#" data-month="outubro"
+                                                                                data-week="2">2ª Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="2"
+                                                                                                data-day="segunda">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="2"
+                                                                                                data-day="terca">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="2"
+                                                                                                data-day="quarta">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="2"
+                                                                                                data-day="quinta">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="2"
+                                                                                                data-day="sexta">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="2"
+                                                                                                data-day="sabado">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="2"
+                                                                                                data-day="domingo">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item" href="#"
+                                                                                data-month="outubro" data-week="3">3ª
+                                                                                Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="3"
+                                                                                                data-day="segunda">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="3"
+                                                                                                data-day="terca">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="3"
+                                                                                                data-day="quarta">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="3"
+                                                                                                data-day="quinta">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="3"
+                                                                                                data-day="sexta">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="3"
+                                                                                                data-day="sabado">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="3"
+                                                                                                data-day="domingo">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item dropdown-toggle"
+                                                                                href="#" data-month="outubro"
+                                                                                data-week="4">4ª Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="4"
+                                                                                                data-day="segunda">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="4"
+                                                                                                data-day="terca">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="4"
+                                                                                                data-day="quarta">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="4"
+                                                                                                data-day="quinta">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="4"
+                                                                                                data-day="sexta">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="4"
+                                                                                                data-day="sabado">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="outubro"
+                                                                                                data-week="4"
+                                                                                                data-day="domingo">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                        </ul>
+                                                </li>
+                                                <li class="dropdown-submenu">
+                                                        <a class="dropdown-item dropdown-toggle" href="#"
+                                                                data-month="novembro">Novembro</a>
+                                                        <ul class="dropdown-menu">
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item dropdown-toggle"
+                                                                                href="#" data-month="novembro"
+                                                                                data-week="1">1ª Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="1"
+                                                                                                data-day="segunda">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="1"
+                                                                                                data-day="terca">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="1"
+                                                                                                data-day="quarta">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="1"
+                                                                                                data-day="quinta">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="1"
+                                                                                                data-day="sexta">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="1"
+                                                                                                data-day="sabado">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="1"
+                                                                                                data-day="domingo">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item dropdown-toggle"
+                                                                                href="#" data-month="novembro"
+                                                                                data-week="2">2ª Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="2"
+                                                                                                data-day="segunda">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="2"
+                                                                                                data-day="terca">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="2"
+                                                                                                data-day="quarta">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="2"
+                                                                                                data-day="quinta">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="2"
+                                                                                                data-day="sexta">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="2"
+                                                                                                data-day="sabado">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="2"
+                                                                                                data-day="domingo">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item dropdown-toggle"
+                                                                                href="#" data-month="novembro"
+                                                                                data-week="3">3ª Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="3"
+                                                                                                data-day="segunda">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="3"
+                                                                                                data-day="terca">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="3"
+                                                                                                data-day="quarta">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="3"
+                                                                                                data-day="quinta">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="3"
+                                                                                                data-day="sexta">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="3"
+                                                                                                data-day="sabado">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="3"
+                                                                                                data-day="domingo">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                                <li class="dropdown-submenu">
+                                                                        <a class="dropdown-item dropdown-toggle"
+                                                                                href="#" data-month="novembro"
+                                                                                data-week="4">4ª Semana</a>
+                                                                        <ul class="dropdown-menu">
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="4"
+                                                                                                data-day="segunda">Segunda</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="4"
+                                                                                                data-day="terca">Terça</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="4"
+                                                                                                data-day="quarta">Quarta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="4"
+                                                                                                data-day="quinta">Quinta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="4"
+                                                                                                data-day="sexta">Sexta</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="4"
+                                                                                                data-day="sabado">Sábado</a>
+                                                                                </li>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                                data-month="novembro"
+                                                                                                data-week="4"
+                                                                                                data-day="domingo">Domingo</a>
+                                                                                </li>
+                                                                        </ul>
+                                                                </li>
+                                                        </ul>
+                                                </li>
+                                        </ul>
+                                </li>
+                        </ul>
+                </div>
+        </div>
+
+        <!-- Container para conteúdo -->
+        <div class="container content-container" id="contentArea" style="display: none; position: relative;">
+                <div class="timer-container">
+                        <button id="timerButton" class="btn btn-primary mb-3">
+                                <i class="bi bi-play-fill"></i> Iniciar
+                        </button>
+                        <span id="timerDisplay" class="ms-3">00:00:00</span>
+                        <div><!-- Botão para resetar tempo da aula atual -->
+                                <button id="resetCurrentTime" class="btn btn-warning me-2">
+                                        <i class="bi bi-arrow-clockwise"></i> Reset Aula Atual
+                                </button>
+
+                                <!-- Botão para resetar todos os tempos -->
+                                <button id="resetAllTimes" class="btn btn-danger">
+                                        <i class="bi bi-trash"></i> Reset Todos os Tempos
+                                </button>
+                        </div>
+                        <div class="progress mt-3" style="height: 20px;">
+                                <div id="progressBar" class="progress-bar bg-primary" role="progressbar"
+                                        style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                </div>
+                        </div>
+                </div>
+                <button id="addPostit" class="btn btn-success mb-3">+ Adicionar Post-it</button>
+
+                <button id="closePage" class="btn btn-danger mb-3"><i class="bi bi-x-circle-fill"></i>Fechar
+                        Página</button>
+                <div id="contentDisplay">
+                        <button id="editContentBtn" class="btn btn-primary edit-content-btn">
+                                <i class="bi bi-pencil-square"></i> Editar Conteúdo
+                        </button>
+
+                        <div class="welcome-screen">
+                                <h2>Bem-vindo ao Plano de Estudos!</h2>
+                                <p>Selecione um mês, semana e dia no menu para começar sua jornada de aprendizado.</p>
+                                <button class="btn btn-primary" data-bs-toggle="offcanvas"
+                                        data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
+                                        Abrir Menu
+                                </button>
+                        </div>
+                </div>
+        </div>
+
+        <!-- Toast para mensagens flutuantes -->
+        <div class="toast-container">
+                <div id="transitionToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-body"></div>
+                </div>
+        </div>
+        <!-- Modal para Editar Conteúdo -->
+        <div class="modal fade" id="editContentModal" tabindex="-1" aria-labelledby="editContentModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                                <div class="modal-header">
+                                        <h5 class="modal-title" id="editContentModalLabel">Editar Conteúdo da Aula</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Fechar"></button>
+                                </div>
+                                <div class="modal-body">
+                                        <form id="editContentForm">
+                                                <div class="mb-3">
+                                                        <label for="editContentMateria"
+                                                                class="form-label">Matéria</label>
+                                                        <select id="editContentMateria" class="form-select" required>
+                                                                <!-- Opções serão preenchidas dinamicamente -->
+                                                        </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                        <label for="editContentHtml" class="form-label">Conteúdo
+                                                                (HTML)</label>
+                                                        <textarea id="editContentHtml" class="form-control" rows="10"
+                                                                required></textarea>
+                                                </div>
+                                                <input type="hidden" id="editContentKey">
+                                                <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                                        </form>
+                                </div>
+                        </div>
+                </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="py-4 bg-dark text-white mt-auto w-100">
+                <div class="container text-center">
+                        <p>&copy; 2025 Daniel DevWeb. Todos os direitos reservados.</p>
+                </div>
+        </footer>
+
+        <button class="btn btn-light back-to-top" onclick="scrollToTop()" title="Voltar ao tôpo">
+                <i class="bi bi-house-up-fill"></i>
+        </button>
+
+        <!-- Bootstrap 5 JS e Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+        <!-- MathJax para renderizar equações -->
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <!-- JavaScript para IndexedDB, cronômetro, post-its e conteúdo -->
+        <script src="./js/index.js"></script>
+
+</body>
+
+</html>
