@@ -1,0 +1,219 @@
+body {
+    font-family: 'Caveat', cursive;
+}
+
+.welcome-screen {
+    text-align: center;
+    padding: 50px;
+    font-family: 'Roboto', sans-serif;
+    color: #343a40;
+}
+
+.welcome-screen h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.welcome-screen p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+.welcome-screen .btn {
+    font-size: 1.1rem;
+}
+
+
+.title-container {
+    text-align: center;
+    padding: 50px 0;
+}
+
+.title-container h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    color: #343a40;
+}
+
+.offcanvas {
+    font-family: 'Caveat', cursive;
+    width: 500px !important;
+}
+
+.offcanvas .nav-link {
+    font-size: 1.5rem;
+}
+
+.dropdown-menu {
+    font-family: 'Caveat', cursive;
+    font-size: 1.3rem;
+}
+
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -1px;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+}
+
+.content-container {
+    margin: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.1rem;
+}
+
+.timer-container {
+    margin-bottom: 20px;
+}
+
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+}
+
+.filter-container {
+    margin: 20px 0;
+}
+
+.chart-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.summary {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.postit {
+    position: absolute;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+    cursor: move;
+    z-index: 1000;
+    min-width: 100px;
+    min-height: 100px;
+    max-width: 300px;
+    max-height: 300px;
+}
+
+.postit textarea {
+    width: calc(100% - 20px);
+    height: calc(100% - 40px);
+    border: none;
+    background: transparent;
+    resize: none;
+    font-family: 'Roboto', sans-serif;
+}
+
+.postit .delete-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+}
+
+.postit-yellow {
+    background-color: #fff3cd;
+}
+
+.postit-pink {
+    background-color: #f8d7da;
+}
+
+.postit-blue {
+    background-color: #d1ecf1;
+}
+
+.postit-green {
+    background-color: #d4edda;
+}
+
+.postit-purple {
+    background-color: #e2d9f3;
+}
+
+/* Estilos para o botão de edição - compatível com sua estrutura */
+.edit-content-btn {
+    margin-bottom: 15px;
+    font-size: 1rem;
+    display: none;
+    /* Inicialmente oculto */
+}
+
+/* Wrapper para o conteúdo */
+.content-wrapper {
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    margin-top: 10px;
+}
+
+/* Mensagens quando não há conteúdo */
+.no-content-message,
+.error-message {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    margin: 20px 0;
+}
+
+.no-content-message h3,
+.error-message h3 {
+    color: #6c757d;
+    margin-bottom: 15px;
+}
+
+.no-content-message p,
+.error-message p {
+    color: #6c757d;
+    margin-bottom: 20px;
+}
+
+/* Melhorias para o textarea do modal */
+#editContentHtml {
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    resize: vertical;
+}
+
+/* Ajustes para o modal */
+#editContentModal .modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+
+/*Botão back to home*/
+.back-to-top {
+    position: fixed;
+    opacity: 0.3;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+    z-index: 999;
+}
+
+.back-to-top i {
+    font-size: 24px;
+    color: #1b25e9;
+}
+
+.back-to-top:hover {
+    opacity: 1;
+}
