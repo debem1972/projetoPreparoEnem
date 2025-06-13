@@ -1,6 +1,6 @@
 📚 projetoPreparoEnem
 Uma aplicação web para transformar seus estudos para o ENEM!
-Bem-vindo ao projetoPreparoEnem, uma aplicação web desenvolvida com carinho para ajudar estudantes que desejam se preparar para o Exame Nacional do Ensino Médio (ENEM) de forma prática, acessível e organizada, mesmo com pouco tempo ou recursos financeiros. Nosso objetivo é apoiar você na jornada para transformar sua vida através da educação! 🚀
+Bem-vindo ao projetoPreparoEnem, uma aplicação web desenvolvida com carinho para ajudar estudantes que desejam se preparar para o Exame Nacional do Ensino Médio (ENEM) de forma prática, acessível e organizada, mesmo com pouco tempo ou recursos financeiros. Meu objetivo é apoiar você na jornada para transformar sua vida através da educação! 🚀
 
 "A sorte favorece quem a cultiva!"
 
@@ -9,14 +9,15 @@ Este projeto foi criado para oferecer um plano de estudos gratuito e personaliz�
 
 Organização nos estudos sem gastar.
 Flexibilidade para adaptar o conteúdo às suas necessidades.
-Ferramentas práticas para acompanhar o progresso.
+Ferramentas práticas para acompanhar o progresso(Dashboard ainda em desenvolvimento).
 
 ⚠️ Aviso: O conteúdo ainda está em desenvolvimento e pode conter discrepâncias, já que não foi revisado por professores. Mas não se preocupe! Você pode personalizar o plano com o editor integrado.
+
 ✨ Funcionalidades
 
 Plano de Estudos Personalizável: Estruture seu plano com base em meses, semanas e dias.
-Editor Integrado: Crie ou edite aulas no formato HTML, seguindo o modelo fornecido. Use IA (como Claude, ChatGPT ou Grok) para gerar conteúdo no padrão desejado.
-Persistência de Dados: Os dados são salvos localmente via IndexedDB e podem ser exportados como arquivo JSON para o seu dispositivo.
+Editor Integrado: Crie ou edite aulas no formato HTML, seguindo o modelo fornecido. Use IA (como Claude, ChatGPT ou Grok gratuítos) para gerar conteúdo no padrão desejado.
+Persistência de Dados: Os dados são salvos localmente via IndexedDB e podem ser exportados como arquivo JSON para o seu dispositivo. Estarei atualizando semana-a-semana o conteúdo do plano. Criei um aviso na tela, indicando quando houver material novo a ser atualizado, quando o usuário abrir o link da aplicação. Basta clicar no botão "Atualizar Plano". Após fazer isso, se quizer manter o conteúdo em seu device, basta exportar os dados para uma pasta local.
 Cronômetro Motivacional: Ative o cronômetro ao iniciar os estudos e receba mensagens motivacionais em intervalos pré-programados. ⏱️
 Barra de Progresso: Acompanhe o quanto você já estudou de cada matéria.
 Em Desenvolvimento: Dashboard com gráficos de desempenho por matéria, semana e mês (em breve!).
@@ -38,7 +39,7 @@ Como estou aprendendo PHP e banco de dados, optei por usar IndexedDB para persis
 💡 Dicas para Aproveitar
 
 Comece do começo: Siga o plano de estudos desde o início para melhores resultados.
-Use o cronômetro: Ele ajuda aRosso mantendo o ritmo com mensagens motivacionais.
+Use o cronômetro: Ele ajuda mantendo o ritmo com mensagens motivacionais.
 Personalize: Ajuste o plano às suas necessidades usando o editor.
 Exporte seus dados: Sempre salve seu progresso em JSON para não perder nada.
 
