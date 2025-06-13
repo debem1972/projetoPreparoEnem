@@ -35,34 +35,122 @@ body {
     color: #343a40;
 }
 
+/*-------------------------------------------------------------*/
+/*Novo estilo offcanvas*/
+/* Estilo do offcanvas */
 .offcanvas {
     font-family: 'Caveat', cursive;
-    width: 500px !important;
+    width: 60% !important;
+    /* Largura para mobile */
 }
 
-.offcanvas .nav-link {
+@media (min-width: 768px) {
+    .offcanvas {
+        width: 300px !important;
+        /* Largura para telas maiores */
+    }
+}
+
+/* Estilo geral dos links de navegação */
+.nav-link {
+    color: #333;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
     font-size: 1.5rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.dropdown-menu {
-    font-family: 'Caveat', cursive;
+.nav-link:hover {
+    background-color: #f8f9fa;
+    color: #0d6efd;
+}
+
+/* Estilo para meses */
+.month-link {
+    background-color: #fff;
+    font-weight: 600;
+    color: #495057;
+    border-left: 4px solid #0d6efd;
+}
+
+.month-link:hover {
+    background-color: #e7f3ff;
+    color: #0d6efd;
+}
+
+/* Estilo para semanas */
+.week-submenu {
+    background-color: #f8f9fa;
+}
+
+.week-link {
+    padding-left: 32px;
     font-size: 1.3rem;
+    font-weight: 500;
+    color: #28a745;
 }
 
-.dropdown-submenu {
-    position: relative;
+.week-link:hover {
+    background-color: #e8f5e8;
+    color: #28a745;
 }
 
-.dropdown-submenu .dropdown-menu {
-    top: 0;
-    left: 100%;
-    margin-top: -1px;
+/* Estilo para dias */
+.day-submenu {
+    background-color: #e9ecef;
 }
 
-.dropdown-submenu:hover>.dropdown-menu {
-    display: block;
+.day-link {
+    padding-left: 48px;
+    font-size: 1.2rem;
+    color: #856404;
+    margin-right: 1rem;
+    /* Margem à direita para dias em mobile */
 }
 
+.day-link:hover {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+/* Transição suave para collapse */
+.collapse {
+    transition: height 0.3s ease-in-out;
+}
+
+.collapsing {
+    transition: height 0.3s ease-in-out;
+}
+
+/* Ícone de submenu */
+.submenu-icon {
+    transition: transform 0.3s ease;
+    font-size: 0.8em;
+}
+
+.collapsed .submenu-icon {
+    transform: rotate(-90deg);
+}
+
+/* Badges de nível */
+.level-badge {
+    font-size: 0.7em;
+    padding: 2px 6px;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+/* Offcanvas header */
+.offcanvas-header {
+    font-family: 'Caveat', cursive;
+}
+
+/*-------------------------------------------------------*/
 .content-container {
     margin: 20px;
     font-family: 'Roboto', sans-serif;
