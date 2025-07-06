@@ -60,7 +60,79 @@
                 <input type="file" id="importFile" accept=".json" style="display: none;">
                 <button id="updatePlan" class="btn btn-outline-primary"
                         title="Clique aqui para atualizar pelo conteúdo remoto!">Atualizar Plano</button>
+                <button class="btn btn-outline-secondary m-3" data-bs-toggle="modal" data-bs-target="#ajudaModal"
+                        title="Ajuda com a aplicação">
+                        <i class="fa-solid fa-circle-question"></i>
+                        <!-- ou use <i class="bi bi-question-circle"></i> -->
+                </button>
+
         </div>
+        <!-- Modal de Ajuda -->
+        <div class="modal fade" id="ajudaModal" tabindex="-1" aria-labelledby="ajudaModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                                <div class="modal-header">
+                                        <h5 class="modal-title" id="ajudaModalLabel">Central de Ajuda</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Fechar"></button>
+                                </div>
+                                <div class="modal-body">
+                                        <ul class="list-group mb-3">
+                                                <li class="list-group-item">
+                                                        <a href="#" onclick="abrirAjudaVideo(event)">Ajuda para criar um
+                                                                atalho da aplicação em seu smartphone</a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                        <a href="#" title="Ainda em desenvolvimento!">Ajuda com a
+                                                                aplicação</a>
+                                                </li>
+                                        </ul>
+
+                                        <!--<div id="ajudaPlayer" style="display: none;">
+                                                <iframe id="iframeAjuda" src=""
+                                                        style="width: 50%; height: 400px; border: none;"></iframe>
+                                                <div class="text-end mt-2">
+                                                        <button class="btn btn-sm btn-outline-danger"
+                                                                onclick="fecharAjudaVideo()">Fechar vídeo</button>
+                                                </div>
+                                        </div>-->
+                                        <div id="ajudaPlayer" class="d-none ajuda-flex">
+                                                <video id="videoAjuda" controls
+                                                        style="width: 100%; max-height: 400px; border: none;">
+                                                        <source src="./video/atalhoHelp.mp4" type="video/mp4">
+                                                        Seu navegador não suporta a tag de vídeo.
+                                                </video>
+                                                <!-- Instruções textuais -->
+                                                <div class="flex-grow-1 shadow p-3">
+                                                        <h6 class="mb-2">Passos para criar o atalho:</h6>
+                                                        <ol id="listaInstrucoes">
+                                                                <li>Com a aplicação já aberta, toque nos tres pontinhos
+                                                                        no tôpo da tela à direita...📝</li>
+                                                                <li>Procure por <strong>"Adicionar à tela
+                                                                                inicial"</strong>...📝</li>
+                                                                <li>Surgirá na sua tela, uma janela modal chamada "Criar
+                                                                        atalho" - clique em
+                                                                        <strong>"Adicionar"</strong>...📝
+                                                                </li>
+                                                                <li>Surgirá então, outra janela...Toque sobre o ícone e
+                                                                        mantenha o dedo sobre ele, arrastando-o para o
+                                                                        local onde quer que ele seja fixado...📝</li>
+                                                                <li>Pronto! Agora você possui um atalho para a sua
+                                                                        aplicação!...👌</li>
+                                                        </ol>
+                                                </div>
+                                                <div class="text-end mt-2">
+                                                        <button class="btn btn-sm btn-outline-danger"
+                                                                onclick="fecharAjudaVideo()">Fechar vídeo</button>
+                                                </div>
+                                        </div>
+
+
+                                </div>
+                        </div>
+                </div>
+        </div>
+
         <!-- Modal do Dashboard -->
         <div class="modal fade" id="dashboardModal" tabindex="-1" aria-labelledby="dashboardModalLabel"
                 aria-hidden="true">
@@ -1036,6 +1108,7 @@
         <!-- JavaScript para IndexedDB, cronômetro, post-its e conteúdo -->
         <script src="./js/index3.js"></script>
         <script src="./js/rotationIcons.js"></script>
+        <script src="./js/abreIframe.js"></script>
 
 
 </body>

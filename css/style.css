@@ -36,6 +36,17 @@ body {
 }
 
 /*-------------------------------------------------------------*/
+/* Estilo aplicado a div #ajudaPlayer referente ao vídeo de ajuda de implantação do atalho em smartphone*/
+.ajuda-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    /* equivalente a Bootstrap gap-3 */
+}
+
+
+
+/*-------------------------------------------------------------*/
 /*Novo estilo offcanvas*/
 /* Estilo do offcanvas */
 .offcanvas {
