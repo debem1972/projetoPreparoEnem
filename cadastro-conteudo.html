@@ -48,6 +48,30 @@
         <h1>Cadastro de Novo Conteúdo</h1>
         <form id="contentForm">
             <div class="mb-3">
+                <label for="materiaSelect" class="form-label">Matéria</label>
+                <select id="materiaSelect" class="form-select" required>
+                    <option value="">Selecione a matéria</option>
+                    <option value="Matemática">Matemática</option>
+                    <option value="Português">Português</option>
+                    <option value="Literatura">Literatura</option>
+                    <option value="Redação">Redação</option>
+                    <option value="História">História</option>
+                    <option value="Geografia">Geografia</option>
+                    <option value="Física">Física</option>
+                    <option value="Química">Química</option>
+                    <option value="Biologia">Biologia</option>
+                    <option value="Sociologia">Sociologia</option>
+                    <option value="Filosofia">Filosofia</option>
+                    <option value="Inglês">Inglês</option>
+                    <option value="Espanhol">Espanhol</option>
+                    <option value="Redação, Literatura e Português">Redação, Literatura e Português</option>
+                    <option value="História e Geografia">História e Geografia</option>
+                    <option value="Biologia Celular">Biologia Celular</option>
+                    <option value="Sociologia + Filosofia">Sociologia + Filosofia</option>
+                    <option value="Desconhecida">Outra/Desconhecida</option>
+                </select>
+            </div>
+            <div class="mb-3">
                 <label for="monthSelect" class="form-label">Mês</label>
                 <select id="monthSelect" class="form-select" required>
                     <option value="">Selecione o mês</option>
@@ -263,18 +287,20 @@
         // Manipulação do formulário
         document.getElementById('contentForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const materiaSelected = document.getElementById('materiaSelect').value;
             const month = document.getElementById('monthSelect').value;
             const week = document.getElementById('weekSelect').value;
             const day = document.getElementById('daySelect').value;
             const content = document.getElementById('contentInput').value;
 
-            if (!month || !week || !day || !content) {
+            if (!materiaSelected || !month || !week || !day || !content) {
                 alert('Por favor, preencha todos os campos!');
                 return;
             }
 
             const key = `${month}-${week}-${day}`;
-            const materia = extractMateria(content);
+            // Usar matéria selecionada no campo, com fallback para extração automática
+            const materia = materiaSelected !== 'Desconhecida' ? materiaSelected : extractMateria(content);
 
             try {
                 await saveContent(key, content, materia);
