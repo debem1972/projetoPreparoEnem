@@ -670,18 +670,10 @@ function openEditContentModal(key, materia, content) {
     const editContentHtml = document.getElementById('editContentHtml');
     const editContentKey = document.getElementById('editContentKey');
 
-    // Preencher opções de matérias
-    const materias = JSON.parse(localStorage.getItem('materias') || '[]');
-    editMateria.innerHTML = '<option value="">Selecione uma matéria</option>';
-
-    materias.forEach(m => {
-        const option = document.createElement('option');
-        option.value = m;
-        option.textContent = m;
-        if (m === materia) {
-            option.selected = true;
-        }
-        editMateria.appendChild(option);
+    // As opções já estão definidas no HTML, apenas selecionar a correta
+    const options = editMateria.querySelectorAll('option');
+    options.forEach(option => {
+        option.selected = option.value === materia;
     });
 
     // Preencher campos
